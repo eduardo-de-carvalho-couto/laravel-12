@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('post_id')->constrained()->cascadeOnDelete();
             $table->string('author');
             $table->text('message');
+             $table->text('body')->nullable();
             $table->timestamps();
         });
     }
