@@ -13,25 +13,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        // User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
-
-         \App\Models\Category::factory(20)->create();
-
-        \App\Models\User::factory(4000)->create()->each(function ($user) {
-            $posts = \App\Models\Post::factory(10)->make();
+        \App\Models\User::factory(500)->create()->each(function ($user) {
+            $posts = \App\Models\Post::factory(5)->make();
             $user->posts()->saveMany($posts);
 
             $posts->each(function ($post) {
                 $post->comments()->saveMany(
-                    \App\Models\Comment::factory(5)->make()
+                    \App\Models\Comment::factory(3)->make()
                 );
 
-                $categoryIds = \App\Models\Category::inRandomOrder()->take(rand(1, 5))->pluck('id');
+                $categoryIds = \App\Models\Category::inRandomOrder()->take(rand(1, 3))->pluck('id');
                 $post->categories()->sync($categoryIds);
             });
         });
