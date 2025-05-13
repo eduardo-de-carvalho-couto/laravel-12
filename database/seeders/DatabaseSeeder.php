@@ -15,9 +15,25 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // User::factory()->create([
+        //     'name' => 'Test User',
+        //     'email' => 'test@example.com',
+        // ]);
+
+         \App\Models\Category::factory(20)->create();
+
+        \App\Models\User::factory(4000)->create()->each(function ($user) {
+            $posts = \App\Models\Post::factory(10)->make();
+            $user->posts()->saveMany($posts);
+
+            $posts->each(function ($post) {
+                $post->comments()->saveMany(
+                    \App\Models\Comment::factory(5)->make()
+                );
+
+                $categoryIds = \App\Models\Category::inRandomOrder()->take(rand(1, 5))->pluck('id');
+                $post->categories()->sync($categoryIds);
+            });
+        });
     }
 }

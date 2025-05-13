@@ -24,3 +24,5 @@ yarn-error.log
 docker/
 Dockerfile
 docker-compose.yml
+teste.*
+.docker
