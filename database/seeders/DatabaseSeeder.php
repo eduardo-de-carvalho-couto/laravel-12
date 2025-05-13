@@ -15,16 +15,16 @@ class DatabaseSeeder extends Seeder
     {
         \App\Models\Category::factory(20)->create();
 
-        \App\Models\User::factory(500)->create()->each(function ($user) {
-            $posts = \App\Models\Post::factory(5)->make(); // 5 posts por usuário
+        \App\Models\User::factory(1_000)->create()->each(function ($user) {
+            $posts = \App\Models\Post::factory(10)->make(); // 10 posts por usuário
             $user->posts()->saveMany($posts);
 
             $posts->each(function ($post) {
                 $post->comments()->saveMany(
-                    \App\Models\Comment::factory(3)->make() // 3 comentários por post
+                    \App\Models\Comment::factory(5)->make() // 5 comentários por post
                 );
 
-                $categoryIds = \App\Models\Category::inRandomOrder()->take(rand(1, 3))->pluck('id');
+                $categoryIds = \App\Models\Category::inRandomOrder()->take(rand(2, 5))->pluck('id');
                 $post->categories()->sync($categoryIds);
             });
         });
